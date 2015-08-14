@@ -1,0 +1,40 @@
+<textarea name="" id="pad" cols="30" rows="10"></textarea>
+<button type="button" id="send">send</button>
+<button type="button" id="connect">connect</button>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+$(function() {
+  var socket;
+  var id;
+  var connected = false;
+  
+  function connect() {
+    socket = io('http://localhost:3000');
+    socket.on('welcome', function(data) {
+      console.log(data);
+      id = data.id;
+      connected = true;
+    });
+    socket.on('message', function(data) {
+      console.log(data);
+    });
+  }
+
+  function send() {
+    socket.emit('call', {
+      from: id,
+      message: $('#pad').val()
+    });
+  }
+
+  $('#connect').click(function() {
+    connect();
+    $(this).remove();
+  });
+
+  $('#send').click(send);
+
+});
+</script>
