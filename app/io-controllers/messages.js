@@ -10,6 +10,8 @@ module.exports = function(namespace) {
 
     socket.join(room);
 
+    socket.emit('success', {});
+
     Message.findLatestByUser(user, function(err, message) {
       if (err) {
         console.log(err);

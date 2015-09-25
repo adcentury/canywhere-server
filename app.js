@@ -23,7 +23,7 @@ models.forEach(function (model) {
 });
 
 // Bootstrap passport config
-require('./config/passport')(passport, config);
+require('./config/passport')(passport);
 
 // Bootstrap express app and socket io settings
 require('./config/express.io')(app, io, passport, config);

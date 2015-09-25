@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var jwt = require('jwt-simple');
+var config = require('../../config/config');
 
 exports.logout = function(req, res) {
   req.logout();
@@ -11,7 +13,6 @@ exports.logout = function(req, res) {
 /**
  * Create user
  */
-
 exports.create = function(req, res) {
   var user = new User(req.body);
   user.provider = 'local';
@@ -33,14 +34,11 @@ exports.create = function(req, res) {
 }
 
 exports.session = function(req, res) {
+  var payload = {sub: req.user.uuid};
+  var token = jwt.encode(payload, config.secret);
   res.json({
     'result': 'success',
-    'uuid': req.user.uuid
+    'uuid': req.user.uuid,
+    'token': token
   });
 };
-
-exports.test = function(req, res) {
-  res.json({
-    'test': true
-  });
-}
